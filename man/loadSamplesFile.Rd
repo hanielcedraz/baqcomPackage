@@ -13,7 +13,7 @@ loadSamplesFile(file, reads_folder, column = "SAMPLE_ID", libraryType = "pairEnd
 
 \item{column}{\code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID}
 
-\item{libraryType}{\code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'.}
+\item{libraryType}{\code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd}
 }
 \description{
 Function to load the sample file

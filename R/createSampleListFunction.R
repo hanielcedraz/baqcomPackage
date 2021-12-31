@@ -1,10 +1,10 @@
 #' @export
-#' @name sampleList
+#' @name createSampleList
 #' @title Creating sample list to run mcapply parallel
 #' @author Haniel Cedraz
 #' @details December 2021
 #' @usage
-#' sampleList(samples, reads_folder, column, fileType, libraryType)
+#' createSampleList(samples, reads_folder, column, fileType, libraryType)
 #' @description
 #' Function to create sample list to run mcapply parallel
 #'
@@ -15,16 +15,16 @@
 #' @param column
 #' \code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID
 #' @param fileType
-#' \code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'.
+#' \code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default fastq.gz
 #' @param libraryType
-#' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'.
+#' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd
 #' @importFrom glue glue
 #' @export
 
 
 
 
-sampleList <- function(samples, reads_folder, column, fileType, libraryType) {
+createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileType = "fastq.gz", libraryType = "pairEnd") {
 
   samples <- as.data.frame(samples)
   aceptedFileTypes <- c("fastq.gz", "bam", "sam")
@@ -91,8 +91,8 @@ sampleList <- function(samples, reads_folder, column, fileType, libraryType) {
     sampleList <- list()
     for (i in 1:nrow(samples)) {
       reads <- dir(path = file.path(reads_folder), pattern = "bam$", full.names = TRUE)
-      map <- lapply(c(".bam"), grep, x = reads, value = TRUE)
-      names(map) <- c("bam")
+      map <- lapply(c("_sorted_pos"), grep, x = reads, value = TRUE)
+      names(map) <- c("bam_sorted_pos")
       map$sampleName <-  samples[i,column]
       map$bam_sorted_pos <- map$bam[i]
 
@@ -106,8 +106,8 @@ sampleList <- function(samples, reads_folder, column, fileType, libraryType) {
     sampleList <- list()
     for (i in 1:nrow(samples)) {
       reads <- dir(path = file.path(reads_folder), pattern = "sam$", full.names = TRUE)
-      map <- lapply(c(".sam"), grep, x = reads, value = TRUE)
-      names(map) <- c("sam")
+      map <- lapply(c("_unsorted_pos"), grep, x = reads, value = TRUE)
+      names(map) <- c("bam_unsorted_pos")
       map$sampleName <-  samples[i,column]
       map$bam_sorted_pos <- map$bam[i]
 

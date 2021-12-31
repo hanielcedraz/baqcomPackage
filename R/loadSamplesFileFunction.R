@@ -15,7 +15,7 @@
 #' @param column
 #' \code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID
 #' @param libraryType
-#' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'.
+#' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd
 #' @importFrom tools file_ext
 #' @importFrom data.table fread
 #' @export
