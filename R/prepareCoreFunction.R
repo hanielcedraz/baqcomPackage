@@ -20,13 +20,13 @@ prepareCore <- function(nThreads = 8){
 
   if (detectCores() < nThreads) {
     write(glue("The number of cores specified ({nThreads}) is greater than the number of cores available ({detectCores()})"), stdout())
-    paste('Using ', detectCores(), 'threads')
+    glue("Using {detectCores()} threads")
     nThreads <- detectCores()
   }
 
 
   #if (detectCores() < opt$procs) nThreads <- detectCores()
-  write(paste("Using", nThreads, "processors", sep = " "),stdout())
+  write(glue("Using {nThreads} processors"),stdout())
   return(nThreads)
 }
 

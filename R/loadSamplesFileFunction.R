@@ -63,7 +63,7 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
 
     }
   }
-  write(paste(file, "contains", nrow(targets), "samples to process"),stdout())
+  write(glue("{file} contains {nrow(targets)} samples to process"), stdout())
   return(targets)
 }
 
