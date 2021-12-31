@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Haniel",
            family = "Cedraz",
            role = c("aut", "cre"),
-           email = "haniel.cedraz@stgen.com")
+           email = "hanielcedraz@gmail.com")
 Description: This package is intent to use for the BAQCOM pipeline.
 Depends:
     R (>= 4.0.0),
