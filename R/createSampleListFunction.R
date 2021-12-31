@@ -91,10 +91,10 @@ createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileTy
     sampleList <- list()
     for (i in 1:nrow(samples)) {
       reads <- dir(path = file.path(reads_folder), pattern = "bam$", full.names = TRUE)
-      map <- lapply(c("_sorted_pos"), grep, x = reads, value = TRUE)
+      map <- lapply(c("_sam_sorted_pos.bam"), grep, x = reads, value = TRUE)
       names(map) <- c("bam_sorted_pos")
       map$sampleName <-  samples[i,column]
-      map$bam_sorted_pos <- map$bam[i]
+      map$bam_sorted_pos <- map$bam_sorted_pos[i]
 
       sampleList[[paste(map$sampleName)]] <- map
       sampleList[[paste(map$sampleName, sep = "_")]]
@@ -106,10 +106,10 @@ createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileTy
     sampleList <- list()
     for (i in 1:nrow(samples)) {
       reads <- dir(path = file.path(reads_folder), pattern = "sam$", full.names = TRUE)
-      map <- lapply(c("_unsorted_pos"), grep, x = reads, value = TRUE)
-      names(map) <- c("bam_unsorted_pos")
+      map <- lapply(c("_unsorted_sample.sam"), grep, x = reads, value = TRUE)
+      names(map) <- c("unsorted_sample")
       map$sampleName <-  samples[i,column]
-      map$bam_sorted_pos <- map$bam[i]
+      map$unsorted_sample <- map$unsorted_sample[i]
 
       sampleList[[paste(map$sampleName)]] <- map
       sampleList[[paste(map$sampleName, sep = "_")]]
