@@ -4,7 +4,7 @@
 #' @author Haniel Cedraz
 #' @details December 2021
 #' @usage
-#' createSampleList(samples, reads_folder, column, fileType, libraryType)
+#' createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = "fastq.gz", libraryType = "pairEnd", samplesFromSTAR = FALSE)
 #' @description
 #' Function to create sample list to run mcapply parallel
 #'
@@ -15,24 +15,32 @@
 #' @param column
 #' \code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID
 #' @param fileType
-#' \code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default fastq.gz
+#' \code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default NULL
 #' @param libraryType
 #' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd
+#' @param samplesFromSTAR
+#' \code{logical.} Whether want to count reads from STAR mapped files. Default FALSE
+#' @param step
+#' \code{Character} Which step to run, Quality Controls or Mapping. Default NULL
 #' @importFrom glue glue
+#' @importFrom utils read.table
 #' @export
 
 
 
 
-createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileType = "fastq.gz", libraryType = "pairEnd") {
+createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileType = NULL, libraryType = "pairEnd", samplesFromSTAR = FALSE, step = NULL) {
 
   samples <- as.data.frame(samples)
   aceptedFileTypes <- c("fastq.gz", "bam", "sam")
 
 
+if (!is.null(fileType)) {
   if (!fileType %in% aceptedFileTypes) {
     stop(glue("File type ({fileType}) not found, please provide one of 'fastq.gz', 'bam' or 'sam'"))
   }
+}
+
 
   aceptedLibraryType <- c("pairEnd", "singleEnd")
   if (!libraryType %in% aceptedLibraryType) {
@@ -53,20 +61,33 @@ createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileTy
     }
   }
 
-
+if (!is.null(fileType)) {
   if (fileType == "fastq.gz") {
     if (libraryType == "pairEnd") {
       sampleList <- list()
       for (i in 1:nrow(samples)) {
         reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
         #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$", full.names = TRUE)
-        map <- lapply(c("_R1","_R2"), grep, x = reads, value = TRUE)
-        names(map) <- c("R1","R2")
-        map$sampleName <-  samples[i,column]
-        map$R1 <- samples[i,2]
-        map$R2 <- samples[i,3]
-        sampleList[[paste(map$sampleName)]] <- map
-        #sampleList[[paste(map$sampleName)]]
+        if (step == "QualityControl") {
+          map <- lapply(c("_R1","_R2"), grep, x = reads, value = TRUE)
+          names(map) <- c("R1","R2")
+          map$sampleName <-  samples[i,column]
+          map$R1 <- samples[i,2]
+          map$R2 <- samples[i,3]
+          sampleList[[paste(map$sampleName)]] <- map
+          #sampleList[[paste(map$sampleName)]]
+        } else if (step == "Mapping") {
+          map <- lapply(c("_PE1", "_PE2", "_SE1", "_SE2"), grep, x = reads, value = TRUE)
+          names(map) <- c("PE1", "PE2", "SE1", "SE2")
+          map$sampleName <-  samples[i,column]
+          map$PE1 <- map$PE1[i]
+          map$PE2 <- map$PE2[i]
+          map$SE1 <- map$SE1[i]
+          map$SE2 <- map$SE2[i]
+          sampleList[[paste(map$sampleName)]] <- map
+          sampleList[[paste(map$sampleName, sep = "_")]]
+        }
+
       }
       write(paste("Setting up",length(sampleList),"jobs"), stdout())
       return(sampleList)
@@ -116,5 +137,27 @@ createSampleList <- function(samples, reads_folder, column = "SAMPLE_ID", fileTy
     }
     write(paste("Setting up",length(sampleList),"jobs"), stdout())
     return(sampleList)
+  }
+}
+
+  if (is.null(fileType) & samplesFromSTAR == TRUE) {
+    # if (is.null(starFolder)) {
+    #   stop(glue("{starFolder} cannot be null, please provide a valid name for the STAR results folder"))
+    # }
+    #reads_folder <- starFolder
+    sampleList <- list()
+      for (i in 1:nrow(samples)) {
+        reads <- dir(path = file.path(reads_folder), pattern = ".bam$", full.names = TRUE)
+
+        map <- lapply(c("_Aligned.sortedByCoord.out.bam"), grep, x = reads, value = TRUE)
+        names(map) <- c("Aligned.sortedByCoord.out")
+        map$sampleName <-  samples[i,column]
+        map$Aligned.sortedByCoord.out <- map$Aligned.sortedByCoord.out[i]
+
+        sampleList[[paste(map$sampleName)]] <- map
+        sampleList[[paste(map$sampleName, sep = "_")]]
+      }
+      write(paste("Setting up", length(sampleList), "jobs"),stdout())
+      return(sampleList)
   }
 }

@@ -38,7 +38,7 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
   }
   ### column SAMPLE_ID should be the sample name
   ### rows can be commented out with #
-  targets <- fread(file, header = TRUE)
+  targets <- read.table(file, header = TRUE)
   if (libraryType == "pairEnd") {
     if (!all(c(column, "Read_1", "Read_2") %in% colnames(targets))) {
       stop(glue("Expecting the three columns SAMPLE_ID, Read_1 and Read_2 in samples file (tab-delimited)"))

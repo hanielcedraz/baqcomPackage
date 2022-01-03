@@ -4,7 +4,7 @@
 \alias{createSampleList}
 \title{Creating sample list to run mcapply parallel}
 \usage{
-createSampleList(samples, reads_folder, column, fileType, libraryType)
+createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = "fastq.gz", libraryType = "pairEnd", samplesFromSTAR = FALSE)
 }
 \arguments{
 \item{samples}{\code{Character.} The filename of the sample file. Default samples.txt.}
@@ -13,9 +13,13 @@ createSampleList(samples, reads_folder, column, fileType, libraryType)
 
 \item{column}{\code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID}
 
-\item{fileType}{\code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default fastq.gz}
+\item{fileType}{\code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default NULL}
 
 \item{libraryType}{\code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd}
+
+\item{samplesFromSTAR}{\code{logical.} Whether want to count reads from STAR mapped files. Default FALSE}
+
+\item{step}{\code{Character} Which step to run, Quality Controls or Mapping. Default NULL}
 }
 \description{
 Function to create sample list to run mcapply parallel
