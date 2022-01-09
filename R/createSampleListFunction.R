@@ -4,7 +4,7 @@
 #' @author Haniel Cedraz
 #' @details December 2021
 #' @usage
-#' createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = "fastq.gz", libraryType = "pairEnd", samplesFromSTAR = FALSE)
+#' createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = NULL, libraryType = "pairEnd", samplesFromSTAR = FALSE, step = NULL)
 #' @description
 #' Function to create sample list to run mcapply parallel
 #'

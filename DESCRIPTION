@@ -10,17 +10,8 @@ Description: This package is intent to use for the BAQCOM pipeline.
 Depends:
     R (>= 4.0.0),
 Imports:
+    utils,
     data.table,
-    stringr,
-    stringi,
-    dplyr,
-    DT,
-    openxlsx,
-    lubridate,
-    tidyr,
-    forcats,
-    purrr,
-    ggplot2,
     glue,
     parallel,
     tools
