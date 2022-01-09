@@ -8,7 +8,7 @@ Authors@R:
            email = "hanielcedraz@gmail.com")
 Description: This package is intent to use for the BAQCOM pipeline.
 Depends:
-    R (>= 4.0.0),
+    R (>= 3.0.0),
 Imports:
     utils,
     data.table,
