@@ -8,7 +8,7 @@ Authors@R:
            email = "hanielcedraz@gmail.com")
 Description: This package is intent to use for the BAQCOM pipeline.
 Depends:
-    R (>= 4.0.0),
+    R (>= 3.0.0),
 Imports:
     utils,
     data.table,
@@ -18,8 +18,7 @@ Imports:
 Suggests:
     knitr,
     devtools,
-    roxygen2,
-    testthat
+    roxygen2
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
