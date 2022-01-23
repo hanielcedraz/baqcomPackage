@@ -19,8 +19,7 @@ Imports:
 Suggests:
     knitr,
     devtools,
-    roxygen2,
-    testthat
+    roxygen2
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
