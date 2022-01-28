@@ -95,12 +95,13 @@ if (!is.null(fileType)) {
 
     } else if (libraryType == "singleEnd") {
 
-      sampleList <- list()
-      for (i in 1:nrow(samples)) {
-        #reads_folder <- "00-Fastq"
-        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$")
-        #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
-        if (any(step %in% c("QualityControl", "Mapping"))) {
+      if (step == "bowtie") {
+
+        sampleList <- list()
+        for (i in 1:nrow(samples)) {
+          #reads_folder <- "01-CleanedReads/"
+          reads <- dir(path = file.path(reads_folder), pattern = "fastq$")
+          #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
           map <- lapply(c("_SE"), grep, x = reads, value = TRUE)
           names(map) <- c("SE")
           map$sampleName <-  samples[i,column]
@@ -108,11 +109,33 @@ if (!is.null(fileType)) {
           #map$SE <- samples[i,2]
           sampleList[[paste(map$sampleName)]] <- map
           #sampleList[[paste(map$sampleName)]]
-        }
 
+        }
+        write(paste("Setting up",length(sampleList),"jobs"), stdout())
+        return(sampleList)
+
+
+      } else {
+        sampleList <- list()
+        for (i in 1:nrow(samples)) {
+          #reads_folder <- "01-CleanedReads/"
+          reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
+          #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
+          if (any(step %in% c("QualityControl", "Mapping"))) {
+            map <- lapply(c("_SE"), grep, x = reads, value = TRUE)
+            names(map) <- c("SE")
+            map$sampleName <-  samples[i,column]
+            map$SE <- map$SE[i]
+            #map$SE <- samples[i,2]
+            sampleList[[paste(map$sampleName)]] <- map
+            #sampleList[[paste(map$sampleName)]]
+          }
+
+        }
+        write(paste("Setting up",length(sampleList),"jobs"), stdout())
+        return(sampleList)
       }
-      write(paste("Setting up",length(sampleList),"jobs"), stdout())
-      return(sampleList)
+
     }
 
   } else if (fileType == "bam") {
