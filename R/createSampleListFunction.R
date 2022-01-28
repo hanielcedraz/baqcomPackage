@@ -96,14 +96,15 @@ if (!is.null(fileType)) {
 
       sampleList <- list()
       for (i in 1:nrow(samples)) {
+        #reads_folder <- "01-CleanedReads/"
         reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
         #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$", full.names = TRUE)
         if (any(step %in% c("QualityControl", "Mapping"))) {
-          map <- lapply(c("_SE"), grep, x = reads, value = TRUE)
+          map <- lapply(c("trim_SE"), grep, x = reads, value = TRUE)
           names(map) <- c("SE")
           map$sampleName <-  samples[i,column]
-          #map$SE <- map$SE[i]
-          map$SE <- samples[i,2]
+          map$SE <- map$SE[i]
+          #map$SE <- samples[i,2]
           sampleList[[paste(map$sampleName)]] <- map
           #sampleList[[paste(map$sampleName)]]
         }
