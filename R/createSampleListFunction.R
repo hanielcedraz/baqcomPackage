@@ -100,7 +100,7 @@ if (!is.null(fileType)) {
         reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
         #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
         if (any(step %in% c("QualityControl", "Mapping"))) {
-          map <- lapply(c("trim_SE"), grep, x = reads, value = TRUE)
+          map <- lapply(c("_SE"), grep, x = reads, value = TRUE)
           names(map) <- c("SE")
           map$sampleName <-  samples[i,column]
           map$SE <- map$SE[i]
