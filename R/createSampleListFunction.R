@@ -67,8 +67,8 @@ if (!is.null(fileType)) {
     if (libraryType == "pairEnd") {
       sampleList <- list()
       for (i in 1:nrow(samples)) {
-        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
-        #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$", full.names = TRUE)
+        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$")
+        #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
         if (step == "QualityControl") {
           map <- lapply(c("_R1","_R2"), grep, x = reads, value = TRUE)
           names(map) <- c("R1","R2")
@@ -97,8 +97,8 @@ if (!is.null(fileType)) {
       sampleList <- list()
       for (i in 1:nrow(samples)) {
         #reads_folder <- "01-CleanedReads/"
-        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
-        #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$", full.names = TRUE)
+        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$")
+        #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
         if (any(step %in% c("QualityControl", "Mapping"))) {
           map <- lapply(c("trim_SE"), grep, x = reads, value = TRUE)
           names(map) <- c("SE")
@@ -117,7 +117,7 @@ if (!is.null(fileType)) {
   } else if (fileType == "bam") {
     sampleList <- list()
     for (i in 1:nrow(samples)) {
-      reads <- dir(path = file.path(reads_folder), pattern = "bam$", full.names = TRUE)
+      reads <- dir(path = file.path(reads_folder), pattern = "bam$")
       map <- lapply(c("_sam_sorted_pos.bam"), grep, x = reads, value = TRUE)
       names(map) <- c("bam_sorted_pos")
       map$sampleName <-  samples[i,column]
@@ -132,7 +132,7 @@ if (!is.null(fileType)) {
   } else if (fileType == "sam") {
     sampleList <- list()
     for (i in 1:nrow(samples)) {
-      reads <- dir(path = file.path(reads_folder), pattern = "sam$", full.names = TRUE)
+      reads <- dir(path = file.path(reads_folder), pattern = "sam$")
       map <- lapply(c("_unsorted_sample.sam"), grep, x = reads, value = TRUE)
       names(map) <- c("unsorted_sample")
       map$sampleName <-  samples[i,column]
@@ -153,7 +153,7 @@ if (!is.null(fileType)) {
     #reads_folder <- starFolder
     sampleList <- list()
       for (i in 1:nrow(samples)) {
-        reads <- dir(path = file.path(reads_folder), pattern = ".bam$", full.names = TRUE)
+        reads <- dir(path = file.path(reads_folder), pattern = ".bam$")
 
         map <- lapply(c("_Aligned.sortedByCoord.out.bam"), grep, x = reads, value = TRUE)
         names(map) <- c("Aligned.sortedByCoord.out")
