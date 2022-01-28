@@ -92,12 +92,13 @@ if (!is.null(fileType)) {
       }
       write(paste("Setting up",length(sampleList),"jobs"), stdout())
       return(sampleList)
+
     } else if (libraryType == "singleEnd") {
 
       sampleList <- list()
       for (i in 1:nrow(samples)) {
-        #reads_folder <- "01-CleanedReads/"
-        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
+        #reads_folder <- "00-Fastq"
+        reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$")
         #reads <- dir(path=file.path(reads_folder, samples[i,column]), pattern = "fastq.gz$")
         if (any(step %in% c("QualityControl", "Mapping"))) {
           map <- lapply(c("_SE"), grep, x = reads, value = TRUE)
