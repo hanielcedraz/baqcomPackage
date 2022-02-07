@@ -4,7 +4,7 @@
 \alias{createSampleList}
 \title{Creating sample list to run mcapply parallel}
 \usage{
-createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = NULL, libraryType = "pairEnd", samplesFromSTAR = FALSE, step = NULL)
+createSampleList(samples, reads_folder, column, program, libraryType, fileType, fromSTAR = FALSE)
 }
 \arguments{
 \item{samples}{\code{Character.} The filename of the sample file. Default samples.txt.}
@@ -13,13 +13,13 @@ createSampleList(samples, reads_folder, column = "SAMPLE_ID", fileType = NULL, l
 
 \item{column}{\code{Character.} Column name from the sample sheet to use as read folder names. Default SAMPLE_ID}
 
-\item{fileType}{\code{Character.} The file type to use. Available: 'fastq.gz', 'bam' or 'sam'. Default NULL}
+\item{program}{\code{Character.} The program to be used. Available 'trimmomatic', 'star', 'Hisat2', 'htseq', 'featurecount', 'bowtie', 'samtools' or 'bwa'}
 
-\item{libraryType}{\code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd}
+\item{libraryType}{\code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'.}
 
-\item{samplesFromSTAR}{\code{logical.} Whether want to count reads from STAR mapped files. Default FALSE}
+\item{fileType}{\code{Character.} The file type to use. Available: 'bam' or 'sam'.}
 
-\item{step}{\code{Character} Which step to run, Quality Controls or Mapping. Default NULL}
+\item{fromSTAR}{\code{Logical.} Wheter to use samples from STAR in FeatureCouts}
 }
 \description{
 Function to create sample list to run mcapply parallel
