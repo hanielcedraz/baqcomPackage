@@ -18,7 +18,7 @@
 #' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd
 #' @importFrom tools file_ext
 #' @importFrom data.table fread
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate %>%
 #' @importFrom glue glue
 #' @export
 
