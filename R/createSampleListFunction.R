@@ -111,6 +111,7 @@ createSampleList <- function(samples, reads_folder, column, program, libraryType
     if (libraryType == "pairEnd") {
       #mappingList <- function(samples, reads_folder, column){
       mapping_list <- list()
+
       for (i in 1:nrow(samples)) {
         reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
         if (program == "bowtie") {
@@ -136,7 +137,7 @@ createSampleList <- function(samples, reads_folder, column, program, libraryType
       #mappingList <- function(samples, reads_folder, column){
       mapping_list <- list()
       for (i in 1:nrow(samples)) {
-        reads_folder <- "01-CleanedReadsSingle/"
+        #reads_folder <- "01-CleanedReadsSingle/"
         reads <- dir(path = file.path(reads_folder), pattern = "fastq.gz$", full.names = TRUE)
         if (program == "bowtie") {
           reads <- dir(path = file.path(reads_folder), pattern = "fastq$", full.names = TRUE)

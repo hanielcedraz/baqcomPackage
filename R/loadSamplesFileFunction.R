@@ -17,9 +17,10 @@
 #' @param libraryType
 #' \code{Character.} The library type to use. Available: 'pairEnd' or 'singleEnd'. Default pairEnd
 #' @importFrom tools file_ext
-#' @importFrom data.table fread
 #' @importFrom dplyr mutate %>%
 #' @importFrom glue glue
+#' @importFrom readr read_table
+#' @importFrom purrr modify_if
 #' @export
 
 
@@ -40,8 +41,17 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
   }
   ### column SAMPLE_ID should be the sample name
   ### rows can be commented out with #
-  targets <- read.table(file, header = TRUE) %>%
-    mutate(column = as.character(column))
+  if (libraryType == "singleEnd") {
+    targets <- read_table(file, col_types = list("c", "c")) %>%
+      modify_if(~is.double(.), ~as.character(.)) %>%
+      as.data.frame()
+
+  } else if (libraryType == "pairEnd") {
+    targets <- read_table(file, col_types = list("c", "c", "c")) %>%
+      modify_if(~is.double(.), ~as.character(.)) %>%
+      as.data.frame()
+  }
+
 
   if (libraryType == "pairEnd") {
     if (!all(c(column, "Read_1", "Read_2") %in% colnames(targets))) {
@@ -49,26 +59,40 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
       stop()
     }
   }
-  for (i in seq.int(nrow(targets$column))) {
-    if (targets[i, column]) {
-      ext <- unique(file_ext(dir(file.path(reads_folder, targets[i,column]), pattern = "gz")))
+  #for (i in seq.int(nrow(targets$column))) {
+    #if (targets[i, column]) {
+      ext <- unique(file_ext(dir(file.path(reads_folder), pattern = "gz")))
       if (length(ext) == 0) {
-        write(paste("Cannot locate fastq or sff file in folder",targets[i,column],"\n"), stderr())
+        write(paste("Cannot locate fastq or sff file in folder", reads_folder, "\n"), stderr())
         stop()
       }
       # targets$type[i] <- paste(ext,sep="/")
-    }
-    else {
-      ext <- file_ext(grep("gz", dir(file.path(reads_folder, targets[i, column])), value = TRUE))
-      if (length(ext) == 0) {
-        write(paste(targets[i,column],"is not a gz file\n"), stderr())
-        stop()
-      }
-
-    }
-  }
+    #}
+    # else {
+    #   ext <- file_ext(grep("gz", dir(file.path(reads_folder)), value = TRUE))
+    #   if (length(ext) == 0) {
+    #     write(paste(targets[i,column],"is not a gz file\n"), stderr())
+    #     stop()
+    #   }
+    #
+    # }
+  #}
   write(glue("{file} contains {nrow(targets)} samples to process"), stdout())
   return(targets)
 }
 
-
+# library(dplyr)
+# library(glue)
+# library(tools)
+# library(purrr)
+# library(readr)
+# samplesFile <- "/Users/haniel/OneDrive/posDoc/miRbaqcom/samplesReal.txt"
+# cleanedFolder <- "/Users/haniel/OneDrive/posDoc/miRbaqcom/01-CleanedReadsReal/"
+# samplesColumn <- "SAMPLE_ID"
+# slibraryType <- "singleEnd"
+# samples <- loadSamplesFile(
+#   file = samplesFile,
+#   reads_folder = cleanedFolder,
+#   column = samplesColumn,
+#   libraryType = slibraryType
+# )

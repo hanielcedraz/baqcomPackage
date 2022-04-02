@@ -16,7 +16,9 @@ Imports:
     data.table,
     glue,
     parallel,
-    tools
+    tools,
+    readr,
+    purrr
 Suggests:
     knitr,
     devtools,
