@@ -27,7 +27,7 @@
 
 
 
-
+#reads_folder <- "/Users/haniel/OneDrive/posDoc/miRbaqcom/01-CleanedReadsReal/"
 createSampleList <- function(samples, reads_folder, column, program, libraryType, fileType = NULL, fromSTAR = FALSE) {
 
   samples <- as.data.frame(samples)

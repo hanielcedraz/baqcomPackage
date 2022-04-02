@@ -61,7 +61,7 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
   }
   #for (i in seq.int(nrow(targets$column))) {
     #if (targets[i, column]) {
-      ext <- unique(file_ext(dir(file.path(reads_folder), pattern = "gz")))
+      ext <- unique(file_ext(dir(file.path(reads_folder), pattern = "fastq|gz")))
       if (length(ext) == 0) {
         write(paste("Cannot locate fastq or sff file in folder", reads_folder, "\n"), stderr())
         stop()
