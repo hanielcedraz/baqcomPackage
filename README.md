@@ -9,7 +9,7 @@ If you haven't upgraded to rlang-0.4.10 yet, when you do, make sure you include 
 
 ## Installing from github
 ```
-install.packages("devtools")
+if(!require(devtools)) {install.packages("devtools")}
 devtools::install_github(repo = "git@github.com:hanielcedraz/baqcomPackage.git")
 
 ```
