@@ -42,12 +42,12 @@ loadSamplesFile <- function(file, reads_folder, column = "SAMPLE_ID", libraryTyp
   ### column SAMPLE_ID should be the sample name
   ### rows can be commented out with #
   if (libraryType == "singleEnd") {
-    targets <- read_table(file, col_types = list("c", "c")) %>%
+    targets <- read_table(file, col_types = list("c", "c"), comment = "#") %>%
       modify_if(~is.double(.), ~as.character(.)) %>%
       as.data.frame()
 
   } else if (libraryType == "pairEnd") {
-    targets <- read_table(file, col_types = list("c", "c", "c")) %>%
+    targets <- read_table(file, col_types = list("c", "c", "c"), comment = "#") %>%
       modify_if(~is.double(.), ~as.character(.)) %>%
       as.data.frame()
   }
